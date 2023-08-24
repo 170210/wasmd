@@ -386,3 +386,14 @@ func isSubset(super, sub []string) bool {
 	}
 	return matches == len(sub)
 }
+
+// si
+func (a AccessConfig) AllAuthorizedAddresses() []string {
+	switch a.Permission {
+	case AccessTypeAnyOfAddresses:
+		return a.Addresses
+	case AccessTypeOnlyAddress:
+		return []string{a.Address}
+	}
+	return []string{}
+}
