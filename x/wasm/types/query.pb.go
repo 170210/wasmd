@@ -177,6 +177,7 @@ var xxx_messageInfo_QueryContractHistoryRequest proto.InternalMessageInfo
 // QueryContractHistoryResponse is the response type for the
 // Query/ContractHistory RPC method
 type QueryContractHistoryResponse struct {
+	// return in the order of contract execution
 	Entries []ContractCodeHistoryEntry `protobuf:"bytes,1,rep,name=entries,proto3" json:"entries"`
 	// pagination defines the pagination in the response.
 	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
@@ -223,6 +224,7 @@ var xxx_messageInfo_QueryContractHistoryResponse proto.InternalMessageInfo
 // QueryContractsByCodeRequest is the request type for the Query/ContractsByCode
 // RPC method
 type QueryContractsByCodeRequest struct {
+	// return in the order of instantiation
 	CodeId uint64 `protobuf:"varint,1,opt,name=code_id,json=codeId,proto3" json:"code_id,omitempty"`
 	// pagination defines an optional pagination for the request.
 	Pagination *query.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
@@ -318,7 +320,8 @@ var xxx_messageInfo_QueryContractsByCodeResponse proto.InternalMessageInfo
 type QueryAllContractStateRequest struct {
 	// address is the address of the contract
 	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
-	// pagination defines an optional pagination for the request.
+	// pagination defines an optional pagination for the request.<br>
+	// return in alphabetical order of the state's keys
 	Pagination *query.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -768,6 +771,7 @@ var xxx_messageInfo_QueryCodesRequest proto.InternalMessageInfo
 
 // QueryCodesResponse is the response type for the Query/Codes RPC method
 type QueryCodesResponse struct {
+	// return in the order of code_id
 	CodeInfos []CodeInfoResponse `protobuf:"bytes,1,rep,name=code_infos,json=codeInfos,proto3" json:"code_infos"`
 	// pagination defines the pagination in the response.
 	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
@@ -859,6 +863,7 @@ var xxx_messageInfo_QueryPinnedCodesRequest proto.InternalMessageInfo
 // QueryPinnedCodesResponse is the response type for the
 // Query/PinnedCodes RPC method
 type QueryPinnedCodesResponse struct {
+	// return in the order of code_id
 	CodeIDs []uint64 `protobuf:"varint,1,rep,packed,name=code_ids,json=codeIds,proto3" json:"code_ids,omitempty"`
 	// pagination defines the pagination in the response.
 	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
