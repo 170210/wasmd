@@ -431,13 +431,13 @@ func TestExecuteContract(t *testing.T) {
 
 	specs := map[string]struct {
 		addr      string
-		expEvents []abci.Event
+		expEvents func(destination_address []byte) []abci.Event
 		expErr    bool
 	}{
 		"address can execute a contract": {
 			addr: myAddress.String(),
-			expEvents: []abci.Event{
-				createMsgEvent(myAddress), {
+			expEvents: func(destination_address []byte) []abci.Event {
+				return []abci.Event{createMsgEvent(myAddress), {
 					Type: "execute",
 					Attributes: []abci.EventAttribute{
 						{
@@ -459,7 +459,7 @@ func TestExecuteContract(t *testing.T) {
 							Index: false,
 						}, {
 							Key:   []byte("destination"),
-							Value: []byte("link1cvk5jz4jank96cmfrxhf5nn4dmj6atu833yvjq"),
+							Value: destination_address,
 							Index: false,
 						},
 					},
@@ -477,6 +477,7 @@ func TestExecuteContract(t *testing.T) {
 						},
 					},
 				},
+				}
 			},
 			expErr: false,
 		},
@@ -505,10 +506,8 @@ func TestExecuteContract(t *testing.T) {
 			}
 
 			// check event
-			new_spec := spec
 			// Note: Value with destination as key cannot be tested because it is a different value for each execution
-			new_spec.expEvents[2].Attributes[2].Value = rsp.Events[2].Attributes[2].Value
-			assert.Equal(t, new_spec.expEvents, rsp.Events)
+			assert.Equal(t, spec.expEvents(rsp.Events[2].Attributes[2].Value), rsp.Events)
 
 			require.NoError(t, err)
 		})
